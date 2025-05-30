@@ -1,0 +1,43 @@
+{
+  "name": "auth-nextjs-themed",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "start": "next start",
+    "lint": "next lint",
+    "build": "next build"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/cache": "^11",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@mui/icons-material": "^7",
+    "@mui/material": "^7",
+    "@mui/material-nextjs": "^7",
+    "@mui/x-charts": "^8",
+    "@mui/x-data-grid": "^8",
+    "@mui/x-date-pickers": "^8",
+    "@mui/x-tree-view": "^8",
+    "@supabase/auth-helpers-react": "^0.5.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.8",
+    "@toolpad/core": "^0.14.0",
+    "clsx": "^2",
+    "dayjs": "^1",
+    "next": "^15",
+    "next-auth": "^5.0.0-beta.25",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.51",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^8",
+    "eslint-config-next": "^15",
+    "typescript": "^5"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
