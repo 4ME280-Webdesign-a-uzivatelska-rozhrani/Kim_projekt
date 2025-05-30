@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { NextAppProvider } from '@toolpad/core/nextjs';
 import PersonIcon from '@mui/icons-material/Person';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import type { Navigation } from '@toolpad/core/AppProvider';
-import { SessionProvider, signIn, signOut } from 'next-auth/react';
 import theme from '../theme';
-import { auth } from '@/auth';
+import { createClient } from '@/utils/supabase/server';
+import { signIn, signOut } from './auth/auth-client';
 
 const NAVIGATION: Navigation = [
   {
@@ -25,29 +24,31 @@ const NAVIGATION: Navigation = [
   },
 ];
 
+// Client-side authentication functions that match the expected types
 const AUTHENTICATION = {
-  signIn,
-  signOut,
+  signIn, // This is a function that takes no parameters
+  signOut // This is a function that takes no parameters
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth();
+  // Get session data for initial render
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+
   return (
-    <html lang="en" data-toolpad-color-scheme="light">
+      <html lang="en" data-toolpad-color-scheme="light">
       <body>
-        <SessionProvider session={session}>
-          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            <NextAppProvider
-              theme={theme}
-              navigation={NAVIGATION}
-              session={session}
-              authentication={AUTHENTICATION}
-            >
-              {children}
-            </NextAppProvider>
-          </AppRouterCacheProvider>
-        </SessionProvider>
+      <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+        <NextAppProvider
+            theme={theme}
+            navigation={NAVIGATION}
+            session={session}
+            authentication={AUTHENTICATION}
+        >
+          {children}
+        </NextAppProvider>
+      </AppRouterCacheProvider>
       </body>
-    </html>
+      </html>
   );
 }

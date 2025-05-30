@@ -135,7 +135,7 @@ export default function AnimePage() {
     }
 
     return (
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ paddingTop: 2 }}>
             {/* Search Bar */}
             <Stack gap={2} justifyContent="space-between" alignItems="flex-end" direction="row">
                 <TextField

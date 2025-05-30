@@ -1,18 +1,37 @@
 'use client';
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import MenuList from '@mui/material/MenuList';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
 import {
   Account,
   AccountPreview,
   AccountPreviewProps,
-  AccountPopoverFooter,
-  SignOutButton,
 } from '@toolpad/core/Account';
 import { SidebarFooterProps } from '@toolpad/core/DashboardLayout';
+
+function CustomSignOutButton() {
+    return (
+        <Button
+            onClick={() => {
+                // Direct navigation to the sign-out page
+                window.location.href = '/auth/signout';
+            }}
+            startIcon={<LogoutIcon />}
+            fullWidth
+            variant="outlined"
+            color="inherit"
+            sx={{
+                justifyContent: 'flex-start',
+                mt: 1,
+                py: 1
+            }}
+        >
+            Sign Out
+        </Button>
+    );
+}
 
 function AccountSidebarPreview(props: AccountPreviewProps & { mini: boolean }) {
   const { handleClick, open, mini } = props;
@@ -21,7 +40,7 @@ function AccountSidebarPreview(props: AccountPreviewProps & { mini: boolean }) {
         <Divider />
         <AccountPreview
             variant={mini ? 'condensed' : 'expanded'}
-            slotProps={{ avatarIconButton: { sx: mini ? { border: '0' } : {} } }}
+            slotProps={{ avatarIconButton: { sx: mini ? { border: '0' } : {} }, moreIconButton: { sx: {display: 'none'} }}}
             handleClick={handleClick}
             open={open}
         />
@@ -33,7 +52,7 @@ function SidebarFooterAccountPopover({ mini }: { mini: boolean }) {
   return (
       <Stack direction="column">
         {mini ? <AccountPreview variant="expanded" /> : null}
-          <SignOutButton  />
+        <CustomSignOutButton />
       </Stack>
   );
 }
@@ -92,8 +111,4 @@ export default function SidebarFooterAccount({ mini }: SidebarFooterProps) {
           }}
       />
   );
-}
-
-export function ToolbarAccountOverride() {
-  return null;
 }

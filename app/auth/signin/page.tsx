@@ -1,30 +1,33 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Link } from '@mui/material';
-import { login } from './actions'; // Import the server-side login function
+import { Box, Button, TextField, Typography, Link, Alert } from '@mui/material';
+import { login } from './actions';
 import { useRouter } from 'next/navigation';
-import {alpha} from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const router = useRouter(); // To handle redirection upon success
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null); // Reset error before login attempt
+        setError(null);
+        setLoading(true);
 
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
 
         try {
-            await login(formData); // Call the login server action
-            router.push('/'); // Redirect to home page upon successful login
+            await login(formData);
+            // If login succeeds, the server action will redirect
         } catch (err: any) {
-            setError('Invalid email or password. Please try again.');
+            setError(err.message || 'Invalid email or password. Please try again.');
+            setLoading(false);
         }
     };
 
@@ -49,9 +52,9 @@ export default function SignIn() {
                 Sign In
             </Typography>
             {error && (
-                <Typography color="error" textAlign="center" mb={2}>
+                <Alert severity="error" sx={{ mb: 2 }}>
                     {error}
-                </Typography>
+                </Alert>
             )}
             <form onSubmit={handleSignIn}>
                 <TextField
@@ -62,6 +65,7 @@ export default function SignIn() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{ mb: 2 }}
+                    disabled={loading}
                 />
                 <TextField
                     label="Password"
@@ -71,9 +75,16 @@ export default function SignIn() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ mb: 3 }}
+                    disabled={loading}
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth>
-                    Sign In
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    disabled={loading}
+                >
+                    {loading ? 'Signing In...' : 'Sign In'}
                 </Button>
             </form>
             <Box mt={2} textAlign="center">

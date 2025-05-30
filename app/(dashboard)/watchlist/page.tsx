@@ -89,7 +89,7 @@ export default function WatchlistPage() {
     return (
         <Box
             sx={{
-                padding: 2,
+                paddingTop: 2,
             }}
         >
             <Box
